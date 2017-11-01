@@ -11,7 +11,7 @@ namespace Task1
     {
         static void Main(string[] args)
         {
-            var fileSystemVisitor = new FileSystemVisitor(@"d:\TestFolder\", (x) => x.EndsWith(".docx"), new FileProvider());
+            var fileSystemVisitor = new FileSystemVisitor(@"d:\TestFolder\", (x) => x.EndsWith(".xlsx"), new FileProvider());
             var reporter = new Reporter();
 
             fileSystemVisitor.FileFinded += reporter.FindedMessage;

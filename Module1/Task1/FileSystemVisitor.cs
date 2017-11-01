@@ -12,8 +12,10 @@ namespace Task1
     {
         public IList<Entity> Heap { get; }
         public string StartFolder { get; set; }
+        public Behavior Action { get; set; }
 
         private readonly Func<string, bool> _compareAlgorithm;
+        private readonly Func<string, bool> _action;
         private readonly IFileProvider _fileProvider;
 
         #region Events Generation Section
@@ -58,6 +60,50 @@ namespace Task1
         {
             var folderFinded = _folderFinded;
             folderFinded?.Invoke(this, $"Find folder : {folderLink}");
+        }
+
+        #endregion
+
+        #region FilteredFolderFinded
+
+        private EventHandler<string> _filtredFolderFinded;
+        public event EventHandler<string> FiltredFolderFinded
+        {
+            add
+            {
+                _filtredFolderFinded += value;
+            }
+            remove
+            {
+                _filtredFolderFinded -= value;
+            }
+        }
+        private void OnFiltredFolderFinded(string folderLink)
+        {
+            var filtredFolderFinded = _filtredFolderFinded;
+            filtredFolderFinded?.Invoke(this, $"Find filtred folder : {folderLink}");
+        }
+
+        #endregion
+
+        #region FiltredFileFinded
+
+        private EventHandler<string> _filtredFileFinded;
+        public event EventHandler<string> FiltredFileFinded
+        {
+            add
+            {
+                _filtredFileFinded += value;
+            }
+            remove
+            {
+                _filtredFileFinded -= value;
+            }
+        }
+        private void OnFiltredFileFinded(string fileLink)
+        {
+            var filtredFileFinded = _filtredFileFinded;
+            filtredFileFinded?.Invoke(this, $"Find filtred file : {fileLink}");
         }
 
         #endregion
@@ -164,5 +210,12 @@ namespace Task1
                 Heap.Add(entity);
             }
         }
+    }
+
+    [Flags]
+    public enum Behavior
+    {
+        stopSearching,
+        skipEntity
     }
 }
